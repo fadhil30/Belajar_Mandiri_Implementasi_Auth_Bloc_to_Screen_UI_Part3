@@ -19,20 +19,20 @@ class DataUserAccountLocal {
 }
 
 class UserAccountRegister {
-  static const String userAcoountRegisterKey = 'userAccountRegister';
+  static const String userAccountRegisterKey = 'userAccountRegister';
 
   static Future<bool> getUserAccountRegister() async {
     final prefs = await SharedPreferences.getInstance();
-    return prefs.getBool(userAcoountRegisterKey) ?? false;
+    return prefs.getBool(userAccountRegisterKey) ?? false;
   }
 
   static void setUserAccountRegister(bool isRegister) async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool(userAcoountRegisterKey, isRegister);
+    await prefs.setBool(userAccountRegisterKey, isRegister);
   }
 
   static void userAccountLogout() async {
     final prefs = await SharedPreferences.getInstance();
-    prefs.remove(userAcoountRegisterKey);
+    prefs.remove(userAccountRegisterKey);
   }
 }

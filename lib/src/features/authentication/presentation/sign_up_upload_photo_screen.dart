@@ -75,7 +75,7 @@ class _SignUpUploadPhotoScreenState extends State<SignUpUploadPhotoScreen> {
                                       onPressed: () {
                                         getImageProfile(GetImageFrom.camera);
                                       },
-                                      icon: Icon(
+                                      icon: const Icon(
                                         Icons.camera,
                                         size: 50.0,
                                       )),
@@ -83,7 +83,7 @@ class _SignUpUploadPhotoScreenState extends State<SignUpUploadPhotoScreen> {
                                       onPressed: () {
                                         getImageProfile(GetImageFrom.gallery);
                                       },
-                                      icon: Icon(
+                                      icon: const Icon(
                                         Icons.photo,
                                         size: 50.0,
                                       ))
@@ -95,7 +95,7 @@ class _SignUpUploadPhotoScreenState extends State<SignUpUploadPhotoScreen> {
                     child: UploadPhotoWidget(
                       image: image,
                     )),
-                SizedBox(
+                const SizedBox(
                   height: 53.0,
                 ),
                 Text(
@@ -103,7 +103,7 @@ class _SignUpUploadPhotoScreenState extends State<SignUpUploadPhotoScreen> {
                   style: getWhiteTextstyle(
                       fontSize: 22.0, fontWeight: FontWeight.w600),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 4.0,
                 ),
                 Text(
@@ -112,10 +112,23 @@ class _SignUpUploadPhotoScreenState extends State<SignUpUploadPhotoScreen> {
                     fontSize: 16,
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 240.0,
                 ),
-                CustomButtonWidget(title: 'Update My Profile', onTap: () {}),
+                BlocBuilder<AuthBloc, AuthState>(
+                  builder: (context, state) {
+                    if (state is AuthLoading) {
+                      return const CircularProgressIndicator();
+                    }
+                    return CustomButtonWidget(
+                        title: 'Update My Profile',
+                        onTap: () {
+                          userAccount.imageProfile = image?.path;
+                          context.read<AuthBloc>().add(RegisterAuthEvent(
+                              userAccount: userAccount, isRegister: true));
+                        });
+                  },
+                ),
                 SizedBox(
                   height: 20.0,
                 ),

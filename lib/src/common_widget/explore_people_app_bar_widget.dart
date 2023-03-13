@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:sarang_app/src/common_widget/logo_widget.dart';
 import 'package:sarang_app/src/features/authentication/data/data_user_account_local.dart';
@@ -6,7 +8,8 @@ import 'package:sarang_app/src/features/likes_you/presentation/people_loved_scre
 import 'package:sarang_app/src/theme_manager/asset_image_icon_manager.dart';
 
 class ExplorePeopleAppBarWidget extends StatelessWidget {
-  const ExplorePeopleAppBarWidget({super.key});
+  const ExplorePeopleAppBarWidget({super.key, this.imagePath});
+  final String? imagePath;
 
   @override
   Widget build(BuildContext context) {
@@ -16,18 +19,20 @@ class ExplorePeopleAppBarWidget extends StatelessWidget {
         GestureDetector(
           onTap: () {
             UserAccountRegister.userAccountLogout();
-            Navigator.pushAndRemoveUntil(context,
-                SignUpScreen.routeName as Route<Object?>, (route) => false);
+            Navigator.pushNamedAndRemoveUntil(
+                context, SignUpScreen.routeName, (route) => false);
           },
           child: Container(
             height: 55.0,
             width: 55.0,
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               shape: BoxShape.circle,
               image: DecorationImage(
-                image: AssetImage(
-                  '${AssetImageIconManager.assetPath}/user_image.png',
-                ),
+                image: imagePath != null
+                    ? FileImage(File(imagePath!))
+                    : AssetImage(
+                        '${AssetImageIconManager.assetPath}/user_image.png',
+                      ) as ImageProvider,
                 fit: BoxFit.cover,
               ),
             ),
